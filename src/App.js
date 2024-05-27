@@ -25,6 +25,7 @@ function App() {
     const handleAddToCart = () => {
       if (count <= quantity) {
         onAddToCart({ id, name, price, quantity: count });
+        alert(`${count} ${name}  dodano do koszyka`);
       } else {
         alert("Nie ma tyle produktów na magazynie");
       }
@@ -68,7 +69,8 @@ return (
       <div key={item.id} className="card mb-3">
         <div className="card-body">
           <h5 className="card-title">{item.name}</h5>
-          <p className="card-text">Cena jedostkowa: {item.price} zł</p>
+         
+
           <input
             type="number"
             min={1}
@@ -84,28 +86,38 @@ return (
     <h4>Suma: {totalPrice} zł</h4>
   </div>
 ); 
-
 };
+
+
+
  
 const AppComponent = () => {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (Produkt) => {
-  const updatedCart = [cart, Produkt];
-   setCart(updatedCart);
-  };
-  
+    const addToCart = (newProduct) => {
+      setCart((prevCart) => {
+const productInCart = prevCart.find((item) => item.id === newProduct.id);
+        if (productInCart) {
+          return prevCart.map((item) =>
+item.id === newProduct.id
+              ? { ...item, quantity: item.quantity + newProduct.quantity }
+              : item
+          );
+        }
+        return [...prevCart, newProduct];
+      });
+    };
+
 
   const removeFromCart = (produktId) => {
-    const updatedCart = cart.filter((item) => item.id !== produktId);
-    setCart(updatedCart);
-  };
+    setCart((prevCart) => prevCart.filter((item) => item.id !== produktId));
+        };
 
-  
-  const updateQuantity = (produktId, newQuantity) => {
-    const updatedCart = cart.map(item => item.id === produktId ? {...item, quantity: newQuantity} : item);
-    setCart(updatedCart);
-  };
+        const updateQuantity = (produktId, newQuantity) => {
+          setCart((prevCart) =>
+    prevCart.map((item) => (item.id === produktId ? { ...item, quantity: newQuantity } : item))
+          );
+        };
 
   return (
     <div className="container">
@@ -124,9 +136,7 @@ const AppComponent = () => {
   </div>
 );
 
-
 };
-
 
 return <AppComponent />;
 

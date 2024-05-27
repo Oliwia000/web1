@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: aquamarine;
 }
 
 
@@ -14,7 +15,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+.button{
+  text-align: center;
+}
 
 
 @keyframes App-logo-spin {
