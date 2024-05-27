@@ -14,9 +14,9 @@ function App() {
   }
 
   const productsData = [
-    { id: 1, name: 'Produkt 1', price: 20, image: '150x150', quantity: 1  },
-    { id: 2, name: 'Produkt 2', price: 20, image: 'product2.jpg', quantity: 1 },
-    { id: 3, name: 'Produkt 3', price: 20, image: 'product3.jpg', quantity: 1 },
+    { id: 1, name: 'Produkt 1', price: 20, image: '150x150', quantity: 7  },
+    { id: 2, name: 'Produkt 2', price: 20, image: 'product.jpg', quantity: 9 },
+    { id: 3, name: 'Produkt 3', price: 20, image: 'product.jpg', quantity: 12 },
   ];
 
 
@@ -36,7 +36,7 @@ function App() {
         <img src={image} className="card-img-top" alt={name} />
          <div className="card-body">
         <h5 className="card-title">{name}</h5>
-        <p className="card-text">Cena : ${price}</p>
+        <p className="card-text">Cena : {price} zł</p>
         <p className="card-text">Ilość : {quantity}</p>
         <input
           type="number"
@@ -49,6 +49,7 @@ function App() {
           onClick={handleAddToCart}
           className="btn btn-primary"
           disabled={quantity === 0}>
+
              Dodaj do koszyka
           </button>
        </div>
@@ -67,7 +68,7 @@ return (
       <div key={item.id} className="card mb-3">
         <div className="card-body">
           <h5 className="card-title">{item.name}</h5>
-          <p className="card-text">Cena jedostkowa: ${item.price}</p>
+          <p className="card-text">Cena jedostkowa: {item.price} zł</p>
           <input
             type="number"
             min={1}
@@ -80,48 +81,54 @@ return (
         </div>
       </div>
     ))}
-    <h4>Suma: ${totalPrice}</h4>
+    <h4>Suma: {totalPrice} zł</h4>
   </div>
 ); 
 
 };
  
-const App = () => {
+const AppComponent = () => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (Produkt) => {
   const updatedCart = [cart, Produkt];
    setCart(updatedCart);
   };
+  
 
   const removeFromCart = (produktId) => {
     const updatedCart = cart.filter((item) => item.id !== produktId);
     setCart(updatedCart);
   };
 
+  
   const updateQuantity = (produktId, newQuantity) => {
-    const updatedCart = cart.map(item => item.id === produktId ? {item, quantity: newQuantity} : item);
+    const updatedCart = cart.map(item => item.id === produktId ? {...item, quantity: newQuantity} : item);
     setCart(updatedCart);
   };
 
   return (
-   // <div className="container">
-      <h1>Sklep internetowy</h1>
-      //<div className="row">
-      //  {produktsData.map((Produkt) => (
-         // <Produkt
-          //  key={Produkt.id}
-          //  {...Produkt}
-           // onAddToCart={addToCart}
-         // />
-       // ))}
-      //</div>
-     // <hr />
-     //</div> <ShoppingCart cart={cart} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />
-    //<//</div>/div>
-  );
-};
+    <div className="container">
+    <h1>Sklep internetowy</h1>
+    <div className="row">
+      {productsData.map((produkt) => (
+        <Product
+          key={produkt.id}
+          {...produkt}
+          onAddToCart={addToCart}
+        />
+      ))}
+    </div>
+    <hr />
+    <ShoppingCart cart={cart} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />
+  </div>
+);
+
 
 };
 
+
+return <AppComponent />;
+
+}
 export default App;
