@@ -1,0 +1,3 @@
+System operacyjny: Windows 11
+Środowiska programistyczne: Visual Studio Code, Node.js
+ Języki programowania / frameworki / biblioteki:JavaScript , React.js ,Bootstrap
